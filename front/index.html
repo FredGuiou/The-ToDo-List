@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/20e644323d.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <title>O'Todo</title>
+</head>
+
+<body>
+
+    <div class="container is-max-desktop p-3">
+        <h1 class="title is-3 has-text-centered">Mes tâches à faire</h1>
+
+       <div class="tasks">
+
+       </div>
+
+        <form class="box create-task">
+            <div class="field">
+                <label class="label">Nouvelle tâche à faire</label>
+                
+                <div class="control">
+                    <input class="input" type="text" name="name" placeholder="Nom de la tâche">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button class="button is-link">Ajouter la tâche</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+
+    <template class="template-task">
+        <div class="box task">
+            <span class="task__name"></span>
+            <form class="task__edit-form">
+                <input class="input is-small task__input-id" name="id" type="hidden">
+                <input class="input is-small task__input-name" name="name" type="text">
+                <button class="button is-link is-small task__button-edit">Ok</button>
+            </form>
+            <div class="task__actions">
+                <span class="icon task__edit">
+                    <i class="fas fa-edit"></i>
+                </span>
+
+                <span class="icon task__delete">
+                    <i class="fas fa-trash"></i>
+                </span>
+            </div>
+        </div>
+
+    </template>
+
+    <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/task.js"></script>
+
+</body>
+
+</html>
