@@ -7,8 +7,12 @@ router.get('/tasks', taskController.listTasks);
 
 // Route pour ajouter une tache
 
+
 // Route pour modifier une tache
 
+
 // Route pour supprimer une tache
+
+
 
 module.exports = router;
