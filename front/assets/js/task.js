@@ -1,5 +1,5 @@
 const taskManager = {
-    apiEndpoint: 'http://localhost:3000',
+    apiEndpoint: 'http://localhost:4001',
 
 
     /**
@@ -9,11 +9,21 @@ const taskManager = {
 
 
         // Récupère la liste des tâches à l'aide de la fonction fetch()
-
+        const urlToCall = taskManager.apiEndpoint + "/tasks";
+        const response = await fetch(urlToCall);
         // Boucle sur la liste des tâches
-
-        // pour chaque tâche appeler la fonction insertTaskInHtml()
-
+        if (response.ok) {
+            const tasks = await response.json();
+            console.log(tasks);
+            
+            for (const task of tasks) {
+                
+                // pour chaque tâche appeler la fonction insertTaskInHtml()
+                taskManager.insertTaskInHtml(task);
+                
+            }
+    
+        }
     },
 
     /**
@@ -44,7 +54,7 @@ const taskManager = {
         // On écoute les événements sur les éléments créés
         newTask.querySelector('.task__delete').addEventListener(
             'click', taskManager.handleDeleteButton);
-        
+
         newTask.querySelector('.task__edit').addEventListener(
             'click', taskManager.handleEditButton);
 
