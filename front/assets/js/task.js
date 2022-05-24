@@ -15,14 +15,14 @@ const taskManager = {
         if (response.ok) {
             const tasks = await response.json();
             console.log(tasks);
-            
+
             for (const task of tasks) {
-                
+
                 // pour chaque tâche appeler la fonction insertTaskInHtml()
                 taskManager.insertTaskInHtml(task);
-                
+
             }
-    
+
         }
     },
 
@@ -71,7 +71,7 @@ const taskManager = {
      * 
      * @param {Event} event 
      */
-    handleCreateForm: function (event) {
+    handleCreateForm: async function (event) {
         // Bloquer l'envoie du formulaire
         event.preventDefault();
 
@@ -79,9 +79,24 @@ const taskManager = {
         const taskFormData = new FormData(event.currentTarget);
 
         // Envoyer les données à l'API
+        const urlToCall = taskManager.apiEndpoint + "/tasks";
+        const fetchOptions = {
+            method: "POST",
+            body: taskFormData // les données à envoyer à l'API
+        };
+        const response = await fetch(urlToCall, fetchOptions);
 
-        // Après confirmation de l'API insérer la tâche dans la page (il y a une fonction toute prete pour ça ;) 
+        // Après confirmation de l'API insérer la tâche dans la page (il y a une fonction toute prete pour ça ;)
+        if (response.ok) {
+            const task = await response.json();
+            // taskFormData va contenir les informations des inputs du formulaire
+            taskManager.insertTaskInHtml(task.id, task.name);
+        }
         // en utilisant la valeur de retour de l'API
+        else {
+            res.send("Impossible d'enregistrer la tâche");
+            // j'informe l'utilisateur qu'il y a eu un problème dans l'enregistrement de la liste
+        }
 
     },
 
@@ -121,7 +136,7 @@ const taskManager = {
      * 
      * @param {Event} event 
      */
-    handleEditForm: function (event) {
+    handleEditForm: async function (event) {
         // Bloquer l'envoie du formulaire
         event.preventDefault();
 
@@ -135,14 +150,30 @@ const taskManager = {
         const taskId = taskFormData.get('id');
 
         // Envoyer les données à l'API
+        if (taskFormData.get("name") !== taskHtmlElement.textContent) {
+            const urlToCall = taskManager.apiEndpoint + "/tasks/" + `${taskId}`;
+            const fetchOptions = {
+                method: "PUT",
+                body: taskFormData // les données à envoyer à l'API
+            };
+            const response = await fetch(urlToCall, fetchOptions);
+
+            // Après confirmation de l'API modifier le nom de la tâche dans le span.task__name
+            if (response.ok) {
+                const task = await response.json();
+
+                taskHtmlElement.textContent = task.name;
 
 
-        // Après confirmation de l'API modifier le nom de la tâche dans le span.task__name
-
+            } else {
+                res.send("Impossible de mettre à jour la tâche");
+                // j'informe l'utilisateur qu'il y a eu un problème dans l'enregistrement de la liste
+            }
+        }
         // On affiche l'input de modification
         taskHtmlElement.querySelector('.task__edit-form').style.display = 'none';
         // On masque le titre
         taskHtmlElement.querySelector('.task__name').style.display = 'block';
-    }
+    },
 
 };
