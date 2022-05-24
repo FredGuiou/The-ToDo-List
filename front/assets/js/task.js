@@ -95,7 +95,7 @@ const taskManager = {
         // en utilisant la valeur de retour de l'API
         else {
             res.send("Impossible d'enregistrer la tâche");
-            // j'informe l'utilisateur qu'il y a eu un problème dans l'enregistrement de la liste
+            // j'informe l'utilisateur qu'il y a eu un problème dans l'enregistrement de la tache
         }
 
     },
@@ -105,16 +105,24 @@ const taskManager = {
      * 
      * @param {Event} event 
      */
-    handleDeleteButton: function (event) {
+    handleDeleteButton: async function (event) {
 
         // On récupère l'ID de l'élément à supprimer
         const taskHtmlElement = event.currentTarget.closest('.task');
         const taskId = taskHtmlElement.dataset.id;
 
         // On envoie la requete de suppression à l'API
-
+        const response = await fetch(taskManager.apiEndpoint + "/tasks/" + `${taskId}`, { method: "DELETE" });
         // On supprime l'élément dans la page HTML
-
+        if (response.ok) {
+            // je supprime la tâche côté HTML
+            console.log("destruction de la tâche !");
+            taskHtmlElement.remove();
+        }
+        else {
+            res.send("Impossible de supprimer la tâche");
+            // j'informe l'utilisateur qu'il y a eu un problème dans la suppression de la tache
+        }
     },
 
     /**
