@@ -12,7 +12,7 @@ router.post('/tasks', taskController.createTasks);
 router.put('/tasks/:id?', taskController.modifyTasks);
 
 // Route pour supprimer une tache
-
+router.delete("/tasks/:id",taskController.deleteOneTask);
 
 
 module.exports = router;

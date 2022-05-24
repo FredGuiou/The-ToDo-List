@@ -54,32 +54,30 @@ const taskController = {
     },
 
     modifyTasks: async function (req, res) {
-        try{
+        try {
             const taskID = req.params.id;
-    
+
             // je viens récupérer la liste en BDD
             const task = await Task.findByPk(taskID);
-    
+
             // je vérifie si une liste a été trouvée
-            if(!task){
+            if (!task) {
                 res.status(404).json("Impossible de retrouver la tâche par son Id");
-            }
-            else{
-                if(req.body.name){ // je vérifie si on souhaite modifier le nom
+            } else {
+                if (req.body.name) { // je vérifie si on souhaite modifier le nom
                     task.name = req.body.name;
                 }
-    
-                if(req.body.position){ // je vérifie si on souhaite modifier la position
+
+                if (req.body.position) { // je vérifie si on souhaite modifier la position
                     task.position = req.body.position;
                 }
-    
+
                 // je mets à jour en BDD
                 await task.save();
-    
+
                 res.json(task);
             }
-        }
-        catch (err) {
+        } catch (err) {
             console.error(err);
             res.status(500).json({
                 error: err
@@ -88,6 +86,23 @@ const taskController = {
 
     },
 
+    deleteOneTask: async function (req, res) {
+        try {
+            const taskID = req.params.id;
+            const task = await Task.findByPk(taskID);
+
+            // je supprime en BDD
+            await task.destroy();
+
+            res.status(204);
+            
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({
+                error: err
+            });
+        }
+    }
 
 };
 
