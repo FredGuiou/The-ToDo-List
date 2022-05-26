@@ -11,6 +11,7 @@ const taskController = {
 
             // Renvoyer la liste des taches en json
             res.json(allTasks);
+            
         } catch (err) {
             console.error(err);
             res.status(500).json({
@@ -44,7 +45,7 @@ const taskController = {
             //J'enregistre en BDD lée données
             await newTask.save();
             console.log("après", newTask);
-
+            
         } catch (err) {
             console.error(err);
             res.status(500).json({
@@ -74,7 +75,7 @@ const taskController = {
 
                 // je mets à jour en BDD
                 await task.save();
-
+                
                 res.json(task);
             }
         } catch (err) {
@@ -93,7 +94,7 @@ const taskController = {
 
             // je supprime en BDD
             await task.destroy();
-
+            res.json("ok");
             res.status(204);
             
         } catch (err) {
